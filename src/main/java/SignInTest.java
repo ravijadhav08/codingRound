@@ -7,10 +7,12 @@ import org.testng.annotations.Test;
 
 public class SignInTest {
 
-    WebDriver driver = new ChromeDriver();
+    WebDriver driver ;
 
     @Test
     public void shouldThrowAnErrorIfSignInDetailsAreMissing() {
+        System.setProperty("webdriver.chrome.driver", "E:\\testvigrant\\chromedriver.exe");
+        driver=new ChromeDriver();
 
         setDriverPath();
 
@@ -20,10 +22,21 @@ public class SignInTest {
         driver.findElement(By.linkText("Your trips")).click();
         driver.findElement(By.id("SignIn")).click();
 
+
+        int size = driver.findElements(By.tagName("iframe")).size();
+//*[@id="modal_window"]
+        System.out.print("Helooo "+size);
+
+        waitFor(2000);
+        driver.switchTo().frame(driver.findElement(By.id("modal_window")));
+
+
+//        driver.findElement(By.id("email")).sendKeys("dsdsd");
         driver.findElement(By.id("signInButton")).click();
 
         String errors1 = driver.findElement(By.id("errors1")).getText();
         Assert.assertTrue(errors1.contains("There were errors in your submission"));
+
         driver.quit();
     }
 

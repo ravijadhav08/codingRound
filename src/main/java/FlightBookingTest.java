@@ -4,18 +4,35 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+
+import javax.xml.ws.soap.Addressing;
 import java.util.List;
 
 public class FlightBookingTest {
 
-    WebDriver driver = new ChromeDriver();
+    WebDriver driver ;
 
 
-    @Test
+
+    @BeforeClass
+    public void setUp(){
+        System.setProperty("webdriver.chrome.driver", "E:\\testvigrant\\chromedriver.exe");
+        driver=new ChromeDriver();
+    }
+
+    @AfterClass
+    public void tearDown(){
+        driver.close();
+        driver.quit();
+    }
+@Test
     public void testThatResultsAppearForAOneWayJourney() {
 
         setDriverPath();
@@ -25,6 +42,9 @@ public class FlightBookingTest {
 
         driver.findElement(By.id("FromTag")).clear();
         driver.findElement(By.id("FromTag")).sendKeys("Bangalore");
+////*[@id="FromTag"]
+
+        //driver.findElement(By.id("FromTag")).sendKeys("Bangalore");
 
         //wait for the auto complete options to appear for the origin
 
@@ -32,8 +52,8 @@ public class FlightBookingTest {
         List<WebElement> originOptions = driver.findElement(By.id("ui-id-1")).findElements(By.tagName("li"));
         originOptions.get(0).click();
 
-        driver.findElement(By.id("toTag")).clear();
-        driver.findElement(By.id("toTag")).sendKeys("Delhi");
+        driver.findElement(By.id("ToTag")).clear();
+        driver.findElement(By.id("ToTag")).sendKeys("Delhi");
 
         //wait for the auto complete options to appear for the destination
 
@@ -52,7 +72,7 @@ public class FlightBookingTest {
         Assert.assertTrue(isElementPresent(By.className("searchSummary")));
 
         //close the browser
-        driver.quit();
+       // driver.quit();
 
     }
 
